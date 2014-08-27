@@ -1,0 +1,72 @@
+<div class="page-header">
+    <div class="page-title">
+        <h3>Postcode</h3>
+        <span>Good morning, John!</span>
+    </div>
+</div>
+
+<div class="row">
+    <!--=== Horizontal Forms ===-->
+    <div class="col-md-12">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4><i class="icon-map-marker"></i> Postcode Pricings</h4>
+                <div class="toolbar no-padding">
+                    <div class="btn-group">
+                        <span class="btn btn-xs" ng-click="addPostcode()"><i class="icon-plus"></i> Add</span>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-content">
+                <table class="table table-hover" style="table-layout:fixed">
+                    <thead>
+                        <tr>
+                            <th width="10%">Postcode</th>
+                            <th width="20%">Pricing</th>
+                            <th width="15%">Post Office</th>
+                            <th width="55%">Locations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="postcode in postcodes">
+                            <td>
+                                <input type="text" ng-model="postcode.name" class="form-control"/>
+                            </td>
+                            <td>
+                                <div class="input-group">
+                                    <span class="input-group-addon">+RM</span>
+                                    <input type="text" name="regular" ng-model="postcode.price" class="form-control" />
+                                </div>
+                            </td>
+                            <td>
+                                <div ng-if="postcodeStreet[postcode.name].postoffice"
+                                     class="animated fadeIn"
+                                     style="white-space: nowrap; overflow: hidden; width:100%; text-overflow: ellipsis;">
+                                    {{postcodeStreet[postcode.name].postoffice}}
+                                </div>
+                            </td>
+                            <td>
+                                <div style="white-space: nowrap; overflow: hidden; width:100%; text-overflow: ellipsis;"
+                                     class="bs-popover animated fadeIn"
+                                     ng-if="postcodeStreet[postcode.name].location"
+                                     data-trigger="hover"
+                                     data-placement="bottom"
+                                     data-content="{{postcodeStreet[postcode.name].location}}">
+                                    {{postcodeStreet[postcode.name].location}}
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <form class="form-horizontal">
+                <div class="form-actions">
+                    <input type="submit" value="Save" class="btn btn-primary btn-lg pull-right">
+                </div>
+                </form>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>

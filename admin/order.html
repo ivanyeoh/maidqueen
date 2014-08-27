@@ -1,0 +1,137 @@
+<div class="page-header">
+    <div class="page-title">
+        <h3>Orders</h3>
+        <span>Good morning, John!</span>
+    </div>
+
+    <ul class="page-stats">
+        <li>
+            <div class="summary">
+                <span>New Orders</span>
+                <h3>5</h3>
+            </div>
+            <!-- Use instead of sparkline e.g. this:
+            <div class="graph circular-chart" data-percent="73">73%</div>
+            -->
+        </li>
+        <li>
+            <div class="summary">
+                <span>Settled Orders</span>
+                <h3>3</h3>
+            </div>
+            <!-- Use instead of sparkline e.g. this:
+            <div class="graph circular-chart" data-percent="73">73%</div>
+            -->
+        </li>
+        <li>
+            <div class="summary">
+                <span>Recurring Orders</span>
+                <h3>1</h3>
+            </div>
+            <!-- Use instead of sparkline e.g. this:
+            <div class="graph circular-chart" data-percent="73">73%</div>
+            -->
+        </li>
+    </ul>
+</div>
+
+<div class="row">
+    <!--=== Horizontal Forms ===-->
+    <div class="col-md-12">
+        <div class="tabbable tabbable-custom">
+            <ul class="nav nav-tabs">
+                <li ng-class="{active:currentTab==='new'}"><a href="javascript:void(0)" ng-click="setTab('new')">New</a></li>
+                <li ng-class="{active:currentTab==='settled'}"><a href="javascript:void(0)" ng-click="setTab('settled')">Settled</a></li>
+                <li ng-class="{active:currentTab==='recurring'}"><a href="javascript:void(0)" ng-click="setTab('recurring')">Recurring</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane" ng-class="{active:currentTab==='new'}">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th width="15%">Customer</th>
+                                <th width="50%">Contact</th>
+                                <th width="15%">Cleaning Date</th>
+                                <th width="5%">Payment</th>
+                                <th width="5%">Status</th>
+                                <th width="10%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="order in orders" ng-class="{'animated fadeOut': order.$deleted}">
+                                <td>
+                                    {{ order.customer }}<br/>
+                                    <small style="color:#d3d3d3">@ {{order.placed_date|date:'short'}}</small>
+                                </td>
+                                <td>
+                                    {{ order.address }}<br/>
+                                    <i class="icon-phone"></i> {{ order.mobile_number }}
+                                </td>
+                                <td>{{ order.cleaning_date|date:'short' }}</td>
+                                <td>
+                                    <span class="label label-success">{{ order.payment_status }}</span>
+                                </td>
+                                <td>
+                                    <span class="label label-default">{{ order.status }}</span>
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-xs" ng-click="removeOrder(order)">Settle</button>
+                                        <button class="btn btn-xs dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">Refund</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" ng-class="{active:currentTab==='settled'}">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th width="13%">Customer</th>
+                            <th width="50%">Contact</th>
+                            <th width="15%">Cleaning Date</th>
+                            <th width="5%">Payment</th>
+                            <th width="5%">Status</th>
+                            <th width="12%">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="settle in settled" ng-class="{'animated fadeOut': settle.$deleted}">
+                            <td>
+                                {{ settle.customer }}<br/>
+                                <small style="color:#d3d3d3">@ {{settle.placed_date|date:'short'}}</small>
+                            </td>
+                            <td>
+                                {{ settle.address }}<br/>
+                                <i class="icon-phone"></i> {{ settle.mobile_number }}
+                            </td>
+                            <td>{{ settle.cleaning_date|date:'short' }}</td>
+                            <td>
+                                <span class="label label-success">{{ settle.payment_status }}</span>
+                            </td>
+                            <td>
+                                <span class="label label-success">{{ settle.status }}</span>
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="btn btn-xs" ng-click="removeSettle(settle)">Unsettle</button>
+                                    <button class="btn btn-xs dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Refund</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" ng-class="{active:currentTab==='recurring'}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

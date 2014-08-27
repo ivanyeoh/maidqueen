@@ -1,0 +1,125 @@
+<div class="page-header">
+    <div class="page-title">
+        <h3>Room &amp; Services</h3>
+        <span>Good morning, John!</span>
+    </div>
+</div>
+
+<div class="row">
+    <!--=== Horizontal Forms ===-->
+    <div class="col-md-6">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4><i class="icon-moon"></i> Bedroom Pricings</h4>
+            </div>
+            <div class="widget-content">
+                <form class="form-horizontal row-border" action="#">
+                    <div class="form-group" ng-repeat="num in [0,1,2,3,4,5]">
+                        <label class="col-md-5 control-label">
+                            <span ng-if="num<=0">Studio</span>
+                            <span ng-if="num===1">1 Bedroom</span>
+                            <span ng-if="num>1">{{num}} Bedroom</span>
+                        </label>
+
+                        <div class="col-md-7">
+                            <div class="input-group">
+                                <span class="input-group-addon">+RM</span>
+                                <input type="text" name="regular" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4><i class="icon-tint"></i> Bathroom Pricings</h4>
+            </div>
+            <div class="widget-content">
+                <form class="form-horizontal row-border" action="#">
+                    <div class="form-group" ng-repeat="num in [0,1,2,3,4,5]">
+                        <label class="col-md-5 control-label">
+                            <span ng-if="num<=0">Studio</span>
+                            <span ng-if="num===1">1 Bathroom</span>
+                            <span ng-if="num>1">{{num}} Bathroom</span>
+                        </label>
+
+                        <div class="col-md-7">
+                            <div class="input-group">
+                                <span class="input-group-addon">+RM</span>
+                                <input type="text" name="regular" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4><i class="icon-calendar"></i> Frequency Discounts</h4>
+            </div>
+            <div class="widget-content">
+                <form class="form-horizontal row-border" action="#">
+                    <div class="form-group" ng-repeat="frequency in ['One Time', 'Weekly', 'Bi-Weekly', 'Monthly']">
+                        <label class="col-md-5 control-label">
+                            {{frequency}}
+                        </label>
+
+                        <div class="col-md-7">
+                            <div class="input-group">
+                                <span class="input-group-addon">- </span>
+                                <input type="text" name="regular" class="form-control" />
+                                <span class="input-group-addon">% </span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4><i class="icon-star-empty"></i> Extra Pricings</h4>
+                <div class="toolbar no-padding">
+                    <div class="btn-group">
+                        <span class="btn btn-xs" ng-click="addExtra();document.getElementById('extra0').focus()"><i class="icon-plus"></i> Add</span>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-content">
+                <form class="form-horizontal row-border" action="#">
+                    <div class="form-group" ng-repeat="extra in extras">
+                        <label class="col-md-5">
+                            <input type="text" ng-model="extra.name" id="extra{{$index}}" class="form-control" />
+                        </label>
+
+                        <div class="col-md-7">
+                            <div class="input-group">
+                                <span class="input-group-addon">+RM</span>
+                                <input type="text" name="regular" ng-model="extra.price" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <!-- /Horizontal Forms -->
+</div>
+
+
+
+
+<div class="form-actions">
+    <input type="submit" value="Save" class="btn btn-primary btn-lg pull-right">
+</div>

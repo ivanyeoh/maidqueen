@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html ng-app="maid">
+<head>
+    <meta charset="utf-8">
+    <title>Online Maid | Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/animate.css" rel="stylesheet" type="text/css" />
+    <style>
+        .btn-option {
+            position: relative;
+        }
+        .btn-option .help-text {
+            color:darkgoldenrod;position:absolute;font-size:smaller;white-space:nowrap;bottom:-20px;left:0;display:block !important;
+            width:100%;
+            text-align:center;
+        }
+
+        .btn-option-compact .help-text {
+            color:darkgoldenrod;position:absolute;font-size:smaller;white-space:nowrap;bottom:0;right:0;width:auto;padding-right:10px;text-align:right;display:block !important;
+        }
+
+        .form-group {
+            margin-bottom:30px;
+        }
+    </style>
+</head>
+<body style="padding-bottom:60px;" ng-controller="bookCtrl">
+
+    <div class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><strong>Maid</strong>Queen</a>
+            </div>
+            <div class="navbar-collapse navbar-responsive-collapse collapse" style="height: 1px;">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="#">Book</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row"">
+            <div class="col-lg-8">
+                <form class="form-horizontal" ng-show="step==='cleaning'">
+                    <div class="form-group">
+                        <label for="postCode" class="col-lg-3 control-label">Where</label>
+                        <div class="col-lg-9">
+                            <input type="text" class="form-control" id="postCode" placeholder="Post Code">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Bedrooms</label>
+                        <div class="col-lg-9">
+                            <div class="btn-group btn-group-justified" ng-init="type='bedroom'">
+                                <div class="btn-group btn-option" ng-repeat="option in option.bedrooms">
+                                    <button type="button" class="btn btn-default"
+                                            ng-click="$parent[type]=option;popHint(type, option)"
+                                            ng-class="{active: $parent[type]==option}">
+                                        {{option}}
+
+                                        <div class="help-text"
+                                             ng-class="{'animated pulse': priceHints[type][option] && charges[type][option] > 0, 'animated fadeOutUp': !priceHints[type][option]}">
+                                            +RM {{charges[type][option]}}
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Bathrooms</label>
+                        <div class="col-lg-9">
+                            <div class="btn-group btn-group-justified">
+                                <div class="btn-group btn-option" ng-repeat="option in option.bathrooms">
+                                    <button type="button" class="btn btn-default"
+                                            ng-click="$parent['bathroom']=option;popHint('bathroom', option)"
+                                            ng-class="{active: $parent['bathroom']==option}">
+                                        {{option}}
+
+                                        <div class="help-text"
+                                             ng-class="{'animated pulse': priceHints['bathroom'][option] && charges['bathroom'][option] > 0, 'animated fadeOutUp': !priceHints['bathroom'][option]}">
+                                            +RM {{charges['bathroom'][option]}}
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">How Often?</label>
+                        <div class="col-lg-9">
+                            <div class="btn-group btn-group-justified">
+                                <div class="btn-group btn-option" ng-repeat="option in option.frequency">
+                                    <button type="button" class="btn btn-default"
+                                            ng-click="$parent.frequency=option;popHint('frequency', option)"
+                                            ng-class="{active: $parent.frequency==option}">
+                                        {{option}}
+
+                                        <div class="help-text"
+                                             ng-class="{'animated pulse': discountHints['frequency'][option] && discounts['frequency'][option] > 0, 'animated fadeOutUp': !discountHints['frequency'][option]}">
+                                            Save {{discounts['frequency'][option]}}%
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Extras</label>
+                        <div class="col-lg-9">
+                            <div class="row">
+                                <div class="col-sm-4 col-xs-6" ng-repeat="option in option.extras">
+                                    <div class="btn-option btn-option-compact" style="margin-bottom:10px;">
+                                        <button type="button"
+                                                class="btn btn-default btn-block"
+                                                ng-click="toggleExtra(option);popHint('extras', option)"
+                                                ng-class="{active: isExtraChosen(option)}"
+                                                style="white-space: normal; height:62px; vertical-align: middle;">
+                                            {{ option }}
+
+                                            <div class="help-text"
+                                                 ng-class="{'animated pulse': priceHints['extras'][option] && charges['extras'][option] > 0, 'animated fadeOutUp': !priceHints['extras'][option]}">
+                                                +RM {{charges['extras'][option]}}
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <form class="form-horizontal" ng-show="step==='schedule'">
+                    <div style="display:inline-block; min-height:290px;">
+                        <datepicker ng-model="date" min-date="minDate" show-weeks="false" class="well well-lg"
+                                    format-day="dd" starting-day="1"></datepicker>
+
+                        <timepicker ng-model="time" hour-step="1" minute-step="30" show-meridian="true"></timepicker>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name" class="col-lg-3 control-label">Your Name</label>
+                        <div class="col-lg-9">
+                            <input type="text" ng-model="name" class="form-control" id="name">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mobileNumber" class="col-lg-3 control-label">Mobile Number</label>
+                        <div class="col-lg-9">
+                            <input type="text" ng-model="mobileNumber" class="form-control" id="mobileNumber">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address" class="col-lg-3 control-label">Address</label>
+                        <div class="col-lg-9">
+                            <textarea ng-model="address" class="form-control" id="address"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Booking Information</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="list-group">
+                            <a href="#" class="list-group-item">
+                                <h4 class="list-group-item-heading">Cleaning</h4>
+                                <p class="list-group-item-text">
+                                    <span ng-show="bedroom===0">Studio</span>
+                                    <span ng-show="bedroom===1">1 Bedroom</span>
+                                    <span ng-show="bedroom>1">{{bedroom}} Bedrooms</span>
+                                </p>
+                                <p class="list-group-item-text">
+                                    <span ng-show="bathroom===0">No Bathrooms</span>
+                                    <span ng-show="bathroom===1">1 Bathroom</span>
+                                    <span ng-show="bathroom>1">{{bathroom}} Bathrooms</span>
+                                </p>
+                                <p class="list-group-item-text">
+                                    <span>{{ frequency }}</span>
+                                </p>
+                                <p class="list-group-item-text" ng-repeat="extra in extras">
+                                    <span>{{ extra }}</span>
+                                </p>
+                            </a>
+                        </div>
+
+                        <div style="padding:10px 20px; text-align:right; font-size:larger; font-weight:bolder">
+                            <small style="opacity: 0.4;padding-right:10px">Total</small>
+                            RM {{ countTotal(bedroom, bathroom, frequency, extras) }}
+                        </div>
+
+                        <button class="btn btn-block btn-primary btn-lg" style="margin-top:20px" ng-click="setStep('schedule')" ng-show="step==='cleaning'">Pick a Date &gt;</button>
+                        <button class="btn btn-block btn-primary btn-lg" style="margin-top:20px" ng-show="step==='schedule'">Confirm Booking</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="visible-xs visible-md visible-sm" style="background:rgba(255,255,255,0.5);position:fixed;bottom:0;width:100%" role="navigation" ng-show="step==='cleaning'">
+        <div class="container">
+            <div style="padding:10px 37px; text-align:right; font-size:larger; font-weight:bolder">
+                <small style="opacity: 0.4;padding-right:10px">Total</small>
+                RM {{ countTotal(bedroom, bathroom, frequency, extras) }}
+            </div>
+        </div>
+    </nav>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/lodash.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/ui-bootstrap-custom-tpls-0.10.0.min.js"></script>
+    <script src="js/directives.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
